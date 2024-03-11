@@ -11,6 +11,7 @@ const Note = mongoose.model('notes', noteScheme)
 const app = express()
 
 app.use(cors())
+app.use(express.json())
 
 const urlencodedParser = bodyParser.urlencoded({
     extended: false
@@ -94,9 +95,16 @@ app.post('/api/create', urlencodedParser, async function(req, res) {
 
 })
 
-app.delete('/delete', async function(req, res) {
+app.delete('/:id', async function(req, res) {
 
-    res.send('Work It')
+    if(req.params) {
+
+        const { id } = req.params
+
+        const note = await Note.findByIdAndDelete(id)
+        res.status(200).json(note)
+
+    }
     
 })
 
