@@ -81,8 +81,6 @@ app.get('/create', async function(req, res) {
 
 app.post('/api/create', urlencodedParser, async function(req, res) {
 
-    console.log(req.body)
-
     res.header('Access-Control-Allow-Origin', '*')
     
     if(!req.body) return res.sendStatus(400)
@@ -92,6 +90,26 @@ app.post('/api/create', urlencodedParser, async function(req, res) {
     const note = await newNote.save()
 
     res.status(200).json(note)
+
+})
+
+app.put('/:id', urlencodedParser, async function(req, res) {
+
+    if(req.params) {
+
+        const { id } = req.params
+
+        const currentNote = await Note.findById(id)
+        currentNote.title = req.body.title
+        currentNote.description = req.body.description
+        currentNote.key = req.body.key
+
+        const note = await currentNote.save()
+
+        res.status(200).json(note)
+
+
+    }
 
 })
 
