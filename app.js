@@ -2,6 +2,9 @@ const express = require('express')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const cors = require('cors')
+const dotenv = require('dotenv')
+
+dotenv.config({path:__dirname + '/.env'})
 
 const Scheme = mongoose.Schema
 
@@ -17,7 +20,7 @@ const urlencodedParser = bodyParser.urlencoded({
     extended: false
 })
 
-const CONNECTION_STRING = 'mongodb://localhost:27017/test'
+const CONNECTION_STRING = process.env.MONGO_CONNECTION_STRING
 
 async function main() {
  
