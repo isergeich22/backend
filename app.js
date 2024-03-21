@@ -8,7 +8,7 @@ dotenv.config({path:__dirname + '/.env'})
 
 const Scheme = mongoose.Schema
 
-const noteScheme = new Scheme({title: String, description: String, key: String})
+const noteScheme = new Scheme({title: String, description: String})
 const Note = mongoose.model('notes', noteScheme)
 
 const app = express()
@@ -88,7 +88,7 @@ app.post('/api/create', urlencodedParser, async function(req, res) {
     
     if(!req.body) return res.sendStatus(400)
 
-    const newNote = new Note({title: req.body.title, description: req.body.description, key: req.body.key})
+    const newNote = new Note({title: req.body.title, description: req.body.description})
 
     const note = await newNote.save()
 
@@ -105,7 +105,6 @@ app.put('/:id', urlencodedParser, async function(req, res) {
         const currentNote = await Note.findById(id)
         currentNote.title = req.body.title
         currentNote.description = req.body.description
-        currentNote.key = req.body.key
 
         const note = await currentNote.save()
 
